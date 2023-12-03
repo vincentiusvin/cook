@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1063576872455",
+    "project_id": "graiddle",
+    "storage_bucket": "graiddle.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063576872455:android:55261130a22c84bc3eeca2",
+        "android_client_info": {
+          "package_name": "com.example.graiddle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5nUz1nIqiDqWivbS_cZe5G3nRoo6Vu6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
