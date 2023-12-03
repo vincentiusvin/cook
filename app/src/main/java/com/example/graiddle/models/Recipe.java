@@ -1,5 +1,7 @@
 package com.example.graiddle.models;
 
+import androidx.annotation.Nullable;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -10,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Recipe extends Model{
     private String name;
@@ -79,5 +82,17 @@ public class Recipe extends Model{
     public static CollectionReference getCollection(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return db.collection("recipes");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(name, recipe.name)
+                && Objects.equals(description, recipe.description)
+                && Objects.equals(ingredients, recipe.ingredients)
+                && Objects.equals(steps, recipe.steps)
+                && Objects.equals(creator.getPath(), recipe.creator.getPath());
     }
 }

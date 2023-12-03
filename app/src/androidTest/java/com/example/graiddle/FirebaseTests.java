@@ -87,6 +87,6 @@ public class FirebaseTests {
                 wait(1000);
             }catch (Exception e){}
         }
-        assertEquals(1, recipes.size());
+        assertTrue(recipe.equals(recipes.get(0)));
     }
 }
