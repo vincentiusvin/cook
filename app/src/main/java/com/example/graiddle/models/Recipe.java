@@ -2,6 +2,7 @@ package com.example.graiddle.models;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.Exclude;
@@ -10,21 +11,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
-public class Recipe {
-    private long id;
+public class Recipe extends Model{
     private String name;
     private String description;
     private List<String> ingredients;
     private List<String> steps;
     DocumentReference creator; // references users
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -67,7 +59,7 @@ public class Recipe {
     }
 
     public Recipe(long id, String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator) {
-        this.id = id;
+        setId(id);
         this.name = name;
         this.description = description;
         this.ingredients = ingredients;
@@ -75,23 +67,13 @@ public class Recipe {
         this.creator = creator;
     }
 
-    @Exclude
-    public DocumentReference getReference(){
+    @Override
+    public CollectionReference _getCollection(){
+        return  getCollection();
+    }
+
+    public static CollectionReference getCollection(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        return db.collection("recipes").document(Long.toString(id));
-    }
-
-    public Task<Void> push() {
-        return getReference().set(this);
-    }
-
-    public Task<Void> push(OnCompleteListener<Void> callback){
-        return getReference().set(this).addOnCompleteListener(callback);
-    }
-
-    // Callback dijalanin tiap ada perubahan di database.
-    public static void bindToCollection(EventListener<QuerySnapshot> callback) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("recipes").addSnapshotListener(callback);
+        return db.collection("recipes");
     }
 }
