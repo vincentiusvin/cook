@@ -78,13 +78,7 @@ public class FirebaseTests {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 for(QueryDocumentSnapshot doc : value){
-                    long id = doc.getLong("id");
-                    String name = doc.getString("name");
-                    String description = doc.getString("description");
-                    List<String> ingredients = (List<String>) doc.get("ingredients");
-                    List<String> steps = (List<String>) doc.get("steps");
-                    DocumentReference creator = doc.getDocumentReference("creator"); // references users
-                    recipes.add(new Recipe(id, name, description, ingredients, steps, creator));
+                    recipes.add(doc.toObject(Recipe.class));
                 }
             }
         });

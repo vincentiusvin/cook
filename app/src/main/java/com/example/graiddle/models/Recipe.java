@@ -18,6 +18,10 @@ public class Recipe extends Model{
     private List<String> steps;
     DocumentReference creator; // references users
 
+    public Recipe(){
+
+    }
+
     public String getName() {
         return name;
     }
@@ -59,7 +63,7 @@ public class Recipe extends Model{
     }
 
     public Recipe(long id, String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator) {
-        setId(id);
+        super(id);
         this.name = name;
         this.description = description;
         this.ingredients = ingredients;

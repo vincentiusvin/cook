@@ -10,6 +10,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public abstract class Model {
     private long id;
 
+    public Model(){}
+
+    public Model(long id){
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }

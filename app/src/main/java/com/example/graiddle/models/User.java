@@ -18,6 +18,7 @@ public class User extends Model{
     private String name;
     private String password;
 
+    public User(){}
 
     public String getName() {
         return name;
@@ -36,7 +37,7 @@ public class User extends Model{
     }
 
     public User(long id, String name, String password) {
-        setId(id);
+        super(id);
         this.name = name;
         this.password = password;
     }
