@@ -36,7 +36,7 @@ public class User extends Model{
         this.password = password;
     }
 
-    public User(long id, String name, String password) {
+    public User(String id, String name, String password) {
         super(id);
         this.name = name;
         this.password = password;

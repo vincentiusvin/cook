@@ -8,19 +8,19 @@ import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public abstract class Model {
-    private long id;
+    private String id;
 
     public Model(){}
 
-    public Model(long id){
+    public Model(String id){
         this.id = id;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -30,7 +30,7 @@ public abstract class Model {
 
     @Exclude
     public DocumentReference getReference(){
-        return _getCollection().document(Long.toString(id));
+        return _getCollection().document(id);
     }
 
     public Task<Void> push() {

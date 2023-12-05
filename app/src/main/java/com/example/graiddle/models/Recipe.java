@@ -65,7 +65,7 @@ public class Recipe extends Model{
         this.creator = creator;
     }
 
-    public Recipe(long id, String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator) {
+    public Recipe(String id, String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator) {
         super(id);
         this.name = name;
         this.description = description;
