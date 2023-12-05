@@ -35,7 +35,7 @@ public class RecipeTest {
 
     @Test
     public void run() throws Exception {
-        User user = new User(auth.getCurrentUser().getUid());
+        User user = User.findByID(auth.getCurrentUser().getUid());
 
         ArrayList<String> ingredients = new ArrayList<String>();
         ingredients.add("Ing 1");

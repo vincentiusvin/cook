@@ -30,7 +30,7 @@ public class UserTest {
         assertEquals(login.getUser().getEmail(), EMAIL);
 
         String uid = login.getUser().getUid();
-        User user = new User(uid);
+        User user = User.findByID(uid);
 
         DocumentSnapshot doc = Tasks.await(user.getReference().get());
         assertTrue(doc.exists());
