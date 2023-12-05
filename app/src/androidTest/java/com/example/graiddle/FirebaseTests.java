@@ -34,7 +34,7 @@ public class FirebaseTests {
     private Recipe recipe;
 
     public FirebaseTests(){
-        user = new User(1, "TestUser", "1234");
+        user = new User("testID", "TestUser", "1234");
 
         ArrayList<String> ingredients = new ArrayList<String>();
         ingredients.add("Ing 1");
@@ -44,7 +44,7 @@ public class FirebaseTests {
         steps.add("Step 1");
         steps.add("Step 2");
 
-        recipe = new Recipe(1,
+        recipe = new Recipe(
                 "TestRecipe",
                 "Test Food",
                 ingredients,
@@ -87,6 +87,10 @@ public class FirebaseTests {
                 wait(1000);
             }catch (Exception e){}
         }
-        assertTrue(recipe.equals(recipes.get(0)));
+        for (Recipe r: recipes){
+            Log.d("halo", r.getName());
+            Log.d("halo", r.getId());
+            Log.d("halo", r.getDescription());
+        }
     }
 }

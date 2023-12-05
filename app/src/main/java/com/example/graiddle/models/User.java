@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
+import java.util.UUID;
 
 public class User extends Model{
     private String name;
@@ -38,6 +39,12 @@ public class User extends Model{
 
     public User(String id, String name, String password) {
         super(id);
+        this.name = name;
+        this.password = password;
+    }
+
+    public User(String name, String password) {
+        super(UUID.randomUUID().toString());
         this.name = name;
         this.password = password;
     }

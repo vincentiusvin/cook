@@ -13,6 +13,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Recipe extends Model{
     private String name;
@@ -74,6 +75,15 @@ public class Recipe extends Model{
         this.creator = creator;
     }
 
+    public Recipe(String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator) {
+        super(UUID.randomUUID().toString());
+        this.name = name;
+        this.description = description;
+        this.ingredients = ingredients;
+        this.steps = steps;
+        this.creator = creator;
+    }
+
     @Override
     public CollectionReference _getCollection(){
         return  getCollection();
@@ -93,6 +103,7 @@ public class Recipe extends Model{
                 && Objects.equals(description, recipe.description)
                 && Objects.equals(ingredients, recipe.ingredients)
                 && Objects.equals(steps, recipe.steps)
-                && Objects.equals(creator.getPath(), recipe.creator.getPath());
+                && Objects.equals(creator.getPath(), recipe.creator.getPath())
+                && Objects.equals(getId(), recipe.getId());
     }
 }
