@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private String EMAIL = "vincentiusvin1@gmail.com";
-    private String PASSWORD = "abcdef";
+    private String EMAIL = "testing@mail.com";
+    private String PASSWORD = "123456";
 
     RecyclerView rvRecipes;
 

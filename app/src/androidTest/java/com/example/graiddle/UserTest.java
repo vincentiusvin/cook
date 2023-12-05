@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class UserTest {
-    private String EMAIL = "testing@mail.com";
+    private String EMAIL = "usertest@mail.com";
     private String USERNAME = "Test User";
     private String PASSWORD = "123456";
 
