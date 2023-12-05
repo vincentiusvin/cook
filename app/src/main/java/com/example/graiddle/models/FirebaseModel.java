@@ -1,20 +1,18 @@
 package com.example.graiddle.models;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-public abstract class Model {
+public abstract class FirebaseModel {
     @DocumentId
     private String id;
 
-    public Model(){}
+    public FirebaseModel(){}
 
-    public Model(String id){
+    public FirebaseModel(String id){
         this.id = id;
     }
 
@@ -35,7 +33,7 @@ public abstract class Model {
         return _getCollection().document(id);
     }
 
-    public Task<Void> push() {
+    public Task<Void> push(){
         return getReference().set(this);
     }
 }

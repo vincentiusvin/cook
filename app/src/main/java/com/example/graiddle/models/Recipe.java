@@ -1,22 +1,15 @@
 package com.example.graiddle.models;
 
-import androidx.annotation.Nullable;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Recipe extends Model{
-    private String name;
+public class Recipe extends FirebaseModel {
+    private String displayName;
     private String description;
     private List<String> ingredients;
     private List<String> steps;
@@ -26,12 +19,12 @@ public class Recipe extends Model{
 
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getDescription() {
@@ -68,7 +61,7 @@ public class Recipe extends Model{
 
     public Recipe(String id, String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator) {
         super(id);
-        this.name = name;
+        this.displayName = name;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
@@ -77,7 +70,7 @@ public class Recipe extends Model{
 
     public Recipe(String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator) {
         super(UUID.randomUUID().toString());
-        this.name = name;
+        this.displayName = name;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
@@ -99,7 +92,7 @@ public class Recipe extends Model{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return Objects.equals(name, recipe.name)
+        return Objects.equals(displayName, recipe.displayName)
                 && Objects.equals(description, recipe.description)
                 && Objects.equals(ingredients, recipe.ingredients)
                 && Objects.equals(steps, recipe.steps)

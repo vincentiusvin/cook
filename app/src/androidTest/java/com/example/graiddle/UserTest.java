@@ -5,17 +5,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.graiddle.models.Recipe;
 import com.example.graiddle.models.User;
-import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -24,18 +23,36 @@ import static org.junit.Assert.*;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
-public class FirebaseTests {
-    private String EMAIL = "vincentiusvin1@gmail.com";
-    private String PASSWORD = "abcdef";
-    private User user;
+public class UserTest {
+    private String EMAIL = "testing@mail.com";
+    private String USERNAME = "Test User";
+    private String PASSWORD = "123456";
     private Recipe recipe;
 
-    public FirebaseTests(){
-        user = new User("testID", "TestUser", "1234");
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    @Test
+    public void userTest() throws Exception{
+        AuthResult register = Tasks.await(User.register(USERNAME, EMAIL, PASSWORD));
+        AuthResult login = Tasks.await(auth.signInWithEmailAndPassword(EMAIL, PASSWORD));
+        assertEquals(register.getUser().getEmail(), EMAIL);
+        assertEquals(login.getUser().getEmail(), EMAIL);
+
+        String uid = login.getUser().getUid();
+        User user = new User(uid);
+
+        DocumentSnapshot doc = Tasks.await(user.getReference().get());
+        assertTrue(doc.exists());
+
+        Tasks.await(user.getReference().delete());
+        Tasks.await(login.getUser().delete());
+    }
+
+    @Test
+    public void recipeTest(){
         ArrayList<String> ingredients = new ArrayList<String>();
         ingredients.add("Ing 1");
         ingredients.add("Ing 2");
@@ -49,30 +66,9 @@ public class FirebaseTests {
                 "Test Food",
                 ingredients,
                 steps,
-                user.getReference()
+                new User(auth.getCurrentUser().getUid()).getReference()
         );
-    }
 
-    @Test
-    @Before
-    public void login() throws Exception{
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        AuthResult res = Tasks.await(auth.signInWithEmailAndPassword(EMAIL, PASSWORD));
-        assertEquals(res.getUser().getEmail(), EMAIL);
-    }
-
-    @Test
-    public void addUser() throws Exception{
-        Tasks.await(user.push());
-    }
-
-    @Test
-    public void addRecipe() throws Exception{
-        Tasks.await(recipe.push());
-    }
-
-    @Test
-    public void viewRecipe(){
         ArrayList<Recipe> recipes = new ArrayList<Recipe>();
         Recipe.getCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -88,7 +84,7 @@ public class FirebaseTests {
             }catch (Exception e){}
         }
         for (Recipe r: recipes){
-            Log.d("halo", r.getName());
+            Log.d("halo", r.getDisplayName());
             Log.d("halo", r.getId());
             Log.d("halo", r.getDescription());
         }
