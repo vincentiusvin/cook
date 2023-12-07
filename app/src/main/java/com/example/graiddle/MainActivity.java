@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             Tasks.await(auth.signInWithEmailAndPassword(EMAIL, PASSWORD));
         }catch (Exception e){}
-
         rvRecipes = findViewById(R.id.recipesRV);
 
         Recipe.getCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {

@@ -16,7 +16,6 @@ public class Recipe extends FirebaseModel {
     DocumentReference creator; // references users
 
     public Recipe(){
-
     }
 
     public String getDisplayName() {
