@@ -34,10 +34,10 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         Recipe item = items.get(position);
         holder.tvName.setText(item.getDisplayName());
         holder.tvDesc.setText(item.getDescription());
-//        holder.root.setOnClickListener(e -> {
-//            Intent openDetail = new Intent(holder.root.getContext(), RecipeDetails.class);
-//            holder.root.getContext().startActivity(openDetail);
-//        });
+        holder.root.setOnClickListener(e -> {
+            Intent openDetail = new Intent(holder.root.getContext(), RecipeDetails.class);
+            holder.root.getContext().startActivity(openDetail);
+        });
     }
 
     @Override
