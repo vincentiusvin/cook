@@ -2,11 +2,13 @@ package com.example.graiddle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.GridLayout;
 import android.widget.Toast;
 
 import com.example.graiddle.models.Recipe;
@@ -19,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,18 +30,36 @@ public class MainActivity extends AppCompatActivity {
     private String EMAIL = "testing@mail.com";
     private String PASSWORD = "123456";
 
-    RecyclerView rvRecipes;
+    private RecyclerView mRecyclerView;
+    private RecyclerView rvRecipes;
+    private List<String> titles;
+    private List<Integer> mImages;
 
+    private HomeAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mRecyclerView = findViewById(R.id.menuRV);
+        titles = new ArrayList<>();
+        mImages = new ArrayList<>();
+        adapter = new HomeAdapter(this, titles, mImages);
+        mImages.add(R.drawable.bakso);
+        mImages.add(R.drawable.mie);
+
+        titles.add("Bakso Malang");
+        titles.add("Mie Goreng");
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(adapter);
+
         try {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             Tasks.await(auth.signInWithEmailAndPassword(EMAIL, PASSWORD));
         }catch (Exception e){}
-        rvRecipes = findViewById(R.id.recipesRV);
 
         Recipe.getCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
