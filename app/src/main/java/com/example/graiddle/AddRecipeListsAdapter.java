@@ -31,6 +31,8 @@ public class AddRecipeListsAdapter extends RecyclerView.Adapter<AddRecipeListsAd
     public void onBindViewHolder(@NonNull VH holder, int position) {
         holder.etName.setText(list.get(position));
         holder.btnRemove.setOnClickListener(v -> {
+            holder.etName.requestFocus();
+            holder.etName.clearFocus();
             list.remove(position);
             AddRecipeListsAdapter.this.notifyItemRemoved(position);
         });

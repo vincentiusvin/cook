@@ -13,16 +13,16 @@ import android.widget.Toast;
 
 import com.example.graiddle.models.Recipe;
 import com.example.graiddle.models.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 
 public class AddRecipeActivity extends AppCompatActivity {
-    Button btnAddIngs, btnAddSteps;
+    Button btnAddIngs, btnAddSteps, btnResepPage;
     EditText etAddTitle, etAddDesc;
 
-    Recipe recipeToBe;
     RecyclerView rvAddIngs, rvAddSteps;
 
     ArrayList<String> ings;
@@ -34,10 +34,10 @@ public class AddRecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_recipe);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        DocumentReference user = User.refById(auth.getUid());
 
         btnAddIngs = findViewById(R.id.addIngsBtn);
         btnAddSteps = findViewById(R.id.addStepsBtn);
+        btnResepPage = findViewById(R.id.resepPageBtn);
         etAddTitle = findViewById(R.id.addTitleET);
         etAddDesc = findViewById(R.id.addDescET);
         rvAddIngs = findViewById(R.id.addIngsRV);
@@ -67,5 +67,16 @@ public class AddRecipeActivity extends AppCompatActivity {
             rvAddSteps.getAdapter().notifyItemInserted(steps.size() - 1);
         });
 
+        btnResepPage.setOnClickListener(v -> {
+            String displayName = String.valueOf(etAddTitle.getText());
+            String desc = String.valueOf(etAddDesc.getText());
+            DocumentReference user = User.refById(auth.getUid());
+            new Recipe(displayName, desc, ings, steps, user)
+                .push().addOnSuccessListener(u -> {
+                    Toast.makeText(AddRecipeActivity.this, "Item added sucesfully!", Toast.LENGTH_SHORT).show();
+                }).addOnFailureListener(u -> {
+                    Toast.makeText(AddRecipeActivity.this, "Item was not added!", Toast.LENGTH_SHORT).show();
+                });
+        });
     }
 }

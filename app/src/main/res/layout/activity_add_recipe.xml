@@ -88,11 +88,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="TAMBAHKAN RESEP BARU"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/resepPageBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/resepPageBtn" />
 
     <TextView
         android:id="@+id/addTitleTV"
@@ -103,7 +103,7 @@
         android:text="Judul Resep"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resepPageTV" />
+        app:layout_constraintTop_toBottomOf="@+id/resepPageBtn" />
 
     <EditText
         android:id="@+id/addDescET"
@@ -115,6 +115,7 @@
         android:gravity="start|top"
         android:hint="Masukkan deskripsi resep"
         android:inputType="textMultiLine"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/addTitleET"
         app:layout_constraintTop_toTopOf="@+id/addDescTV" />
@@ -140,5 +141,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addStepsTV" />
+
+    <Button
+        android:id="@+id/resepPageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Unggah"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
