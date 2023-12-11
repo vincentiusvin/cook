@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -63,5 +64,9 @@ public class User extends FirebaseModel {
         catch(Exception e){
             return null;
         }
+    }
+
+    public static DocumentReference refById(String id) {
+        return getCollection().document(id);
     }
 }
