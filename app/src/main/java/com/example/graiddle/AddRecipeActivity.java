@@ -71,7 +71,7 @@ public class AddRecipeActivity extends AppCompatActivity {
             String displayName = String.valueOf(etAddTitle.getText());
             String desc = String.valueOf(etAddDesc.getText());
             DocumentReference user = User.refById(auth.getUid());
-            new Recipe(displayName, desc, ings, steps, user)
+            new Recipe(displayName, desc, ings, steps, user, "bakso.jpeg")
                 .push().addOnSuccessListener(u -> {
                     Toast.makeText(AddRecipeActivity.this, "Item added successfully!", Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(u -> {
