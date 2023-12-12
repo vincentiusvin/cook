@@ -2,7 +2,9 @@ package com.example.graiddle.models;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
@@ -68,6 +70,13 @@ public class Recipe extends FirebaseModel {
         this.imagePath = imagePath;
     }
 
+    @Exclude
+    public StorageReference getImageRef(){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference image = storage.getReference().child(getImagePath());
+        return image;
+    }
+
 
     public Recipe(String id, String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator, String imagePath) {
         super(id);
@@ -97,6 +106,10 @@ public class Recipe extends FirebaseModel {
     public static CollectionReference getCollection(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return db.collection("recipes");
+    }
+
+    public static DocumentReference refById(String id){
+        return getCollection().document(id);
     }
 
     @Override
