@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -42,10 +43,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.mTextView.setText(titles.get(position));
-//        holder.mImageView.setImageResource(images.get(position));
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        storage.getReference().child(images.get(position))
-            .getBytes(1000000000).addOnSuccessListener(bytes -> {
+        StorageReference image = storage.getReference().child(images.get(position));
+        StorageReference testImage = storage.getReference(image.getPath());
+        testImage.getBytes(1000000000).addOnSuccessListener(bytes -> {
                 Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 holder.mImageView.setImageBitmap(bmp);
             }).addOnFailureListener(e -> {
