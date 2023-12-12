@@ -20,6 +20,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView rvRecipes;
     private List<String> titles;
-    private List<Integer> mImages;
+    private List<String> mImages;
 
     private HomeAdapter adapter;
     @Override
@@ -45,11 +46,12 @@ public class MainActivity extends AppCompatActivity {
         titles = new ArrayList<>();
         mImages = new ArrayList<>();
         adapter = new HomeAdapter(this, titles, mImages);
-        mImages.add(R.drawable.bakso);
-        mImages.add(R.drawable.mie);
+        mImages.add("bakso.jpeg");
+        mImages.add("mie.jpg");
 
         titles.add("Bakso Malang");
         titles.add("Mie Goreng");
+
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(gridLayoutManager);
@@ -61,13 +63,13 @@ public class MainActivity extends AppCompatActivity {
             Tasks.await(auth.signInWithEmailAndPassword(EMAIL, PASSWORD));
         }catch (Exception e){}
 
-        Recipe.getCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                List<Recipe> result = value.toObjects(Recipe.class);
-                rvRecipes.setAdapter(new RecipeListAdapter(result));
-                rvRecipes.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            }
-        });
+//        Recipe.getCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                List<Recipe> result = value.toObjects(Recipe.class);
+//                rvRecipes.setAdapter(new RecipeListAdapter(result));
+//                rvRecipes.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+//            }
+//        });
     }
 }
