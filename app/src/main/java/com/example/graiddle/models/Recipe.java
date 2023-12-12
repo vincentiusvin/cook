@@ -16,8 +16,8 @@ public class Recipe extends FirebaseModel {
     private String description;
     private List<String> ingredients;
     private List<String> steps;
-    private DocumentReference creator; // references users
-    private String imagePath;
+    private String userID;
+    private String imgID;
 
     public Recipe(){
     }
@@ -54,48 +54,48 @@ public class Recipe extends FirebaseModel {
         this.steps = steps;
     }
 
-    public DocumentReference getCreator() {
-        return creator;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setCreator(DocumentReference creator) {
-        this.creator = creator;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getImgID() {
+        return imgID;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setImgID(String imgID) {
+        this.imgID = imgID;
     }
 
     @Exclude
     public StorageReference getImageRef(){
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference image = storage.getReference().child(getImagePath());
+        StorageReference image = storage.getReference().child(getImgID());
         return image;
     }
 
 
-    public Recipe(String id, String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator, String imagePath) {
+    public Recipe(String id, String name, String description, List<String> ingredients, List<String> steps, String userID, String imgID) {
         super(id);
         this.displayName = name;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
-        this.creator = creator;
-        this.imagePath = imagePath;
+        this.userID = userID;
+        this.imgID = imgID;
     }
 
-    public Recipe(String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator, String imagePath) {
+    public Recipe(String name, String description, List<String> ingredients, List<String> steps, String userID, String imgID) {
         super(UUID.randomUUID().toString());
         this.displayName = name;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
-        this.creator = creator;
-        this.imagePath = imagePath;
+        this.userID = userID;
+        this.imgID = imgID;
     }
 
     @Override
@@ -121,7 +121,8 @@ public class Recipe extends FirebaseModel {
                 && Objects.equals(description, recipe.description)
                 && Objects.equals(ingredients, recipe.ingredients)
                 && Objects.equals(steps, recipe.steps)
-                && Objects.equals(creator.getPath(), recipe.creator.getPath())
+                && Objects.equals(userID, recipe.userID)
+                && Objects.equals(imgID, recipe.imgID)
                 && Objects.equals(getId(), recipe.getId());
     }
 }
