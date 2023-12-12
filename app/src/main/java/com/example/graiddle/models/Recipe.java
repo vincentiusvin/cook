@@ -2,7 +2,10 @@ package com.example.graiddle.models;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,10 +16,10 @@ public class Recipe extends FirebaseModel {
     private String description;
     private List<String> ingredients;
     private List<String> steps;
-    DocumentReference creator; // references users
+    private DocumentReference creator; // references users
+    private String imagePath;
 
     public Recipe(){
-
     }
 
     public String getDisplayName() {
@@ -59,22 +62,40 @@ public class Recipe extends FirebaseModel {
         this.creator = creator;
     }
 
-    public Recipe(String id, String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator) {
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    @Exclude
+    public StorageReference getImageRef(){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference image = storage.getReference().child(getImagePath());
+        return image;
+    }
+
+
+    public Recipe(String id, String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator, String imagePath) {
         super(id);
         this.displayName = name;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
         this.creator = creator;
+        this.imagePath = imagePath;
     }
 
-    public Recipe(String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator) {
+    public Recipe(String name, String description, List<String> ingredients, List<String> steps, DocumentReference creator, String imagePath) {
         super(UUID.randomUUID().toString());
         this.displayName = name;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
         this.creator = creator;
+        this.imagePath = imagePath;
     }
 
     @Override
@@ -85,6 +106,10 @@ public class Recipe extends FirebaseModel {
     public static CollectionReference getCollection(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return db.collection("recipes");
+    }
+
+    public static DocumentReference refById(String id){
+        return getCollection().document(id);
     }
 
     @Override

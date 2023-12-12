@@ -10,6 +10,8 @@ import com.example.graiddle.models.User;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +38,9 @@ public class RecipeTest {
     @Test
     public void run() throws Exception {
         User user = User.findByID(auth.getCurrentUser().getUid());
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        String imagePath = storage.getReference().child("bakso.jpeg").getPath();
 
         ArrayList<String> ingredients = new ArrayList<String>();
         ingredients.add("Ing 1");
@@ -50,7 +55,8 @@ public class RecipeTest {
                 "Test Food",
                 ingredients,
                 steps,
-                user.getReference()
+                user.getReference(),
+                imagePath
         );
         Tasks.await(recipe.push());
 
