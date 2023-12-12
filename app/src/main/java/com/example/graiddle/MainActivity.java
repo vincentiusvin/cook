@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private HomeAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        startActivity(new Intent(this, AddRecipeActivity.class));
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

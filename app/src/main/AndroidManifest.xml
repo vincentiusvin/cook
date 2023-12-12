@@ -16,6 +16,9 @@
             android:name=".RecipeDetails"
             android:exported="false" />
         <activity
+            android:name=".AddRecipeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
