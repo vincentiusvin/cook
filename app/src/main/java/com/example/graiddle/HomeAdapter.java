@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.graiddle.models.Recipe;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -23,13 +24,11 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
     private Context context;
-    private List<String> titles;
-    private List<String> images;
+    private List<Recipe> recipes;
 
-    public HomeAdapter(Context context, List<String> titles, List<String> images) {
+    public HomeAdapter(Context context, List<Recipe> recipes){
         this.context = context;
-        this.titles = titles;
-        this.images = images;
+        this.recipes = recipes;
     }
 
     @NonNull
@@ -42,9 +41,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.mTextView.setText(titles.get(position));
+        Recipe curr = recipes.get(position);
+
+        holder.mTextView.setText(curr.getDisplayName());
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference image = storage.getReference().child(images.get(position));
+        StorageReference image = storage.getReference().child(curr.getImagePath());
         StorageReference testImage = storage.getReference(image.getPath());
         testImage.getBytes(1000000000).addOnSuccessListener(bytes -> {
                 Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -56,7 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return recipes.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
