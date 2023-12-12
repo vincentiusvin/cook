@@ -21,10 +21,7 @@ public class HomeActivity extends AppCompatActivity {
     private String EMAIL = "testing@mail.com";
     private String PASSWORD = "123456";
 
-    private RecyclerView mRecyclerView;
     private RecyclerView rvRecipes;
-    private List<String> titles;
-    private List<String> mImages;
 
     private HomeAdapter adapter;
     @Override
@@ -35,11 +32,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = findViewById(R.id.menuRV);
+        rvRecipes = findViewById(R.id.menuRV);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
-        mRecyclerView.setHasFixedSize(true);
+        rvRecipes.setLayoutManager(gridLayoutManager);
+        rvRecipes.setHasFixedSize(true);
 
         try {
             FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -51,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 List<Recipe> result = value.toObjects(Recipe.class);
                 adapter = new HomeAdapter(HomeActivity.this, result);
-                mRecyclerView.setAdapter(adapter);
+                rvRecipes.setAdapter(adapter);
             }
         });
     }

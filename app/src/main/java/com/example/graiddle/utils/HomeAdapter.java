@@ -1,6 +1,7 @@
 package com.example.graiddle.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.graiddle.R;
+import com.example.graiddle.RecipeDetailActivity;
 import com.example.graiddle.models.Recipe;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -34,7 +36,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_home, parent, false);
         return new MyViewHolder(v);
-
     }
 
     @Override
@@ -42,16 +43,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         Recipe curr = recipes.get(position);
 
         holder.mTextView.setText(curr.getDisplayName());
+        holder.itemView.setOnClickListener(v -> {
+            Intent move = new Intent(context, RecipeDetailActivity.class);
+            move.putExtra("id", curr.getId());
+            context.startActivity(move);
+        });
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference image = storage.getReference().child(curr.getImagePath());
-        StorageReference testImage = storage.getReference(image.getPath());
-        testImage.getBytes(1000000000).addOnSuccessListener(bytes -> {
-                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                holder.mImageView.setImageBitmap(bmp);
-            }).addOnFailureListener(e -> {
-                e.printStackTrace();
-            });
+        curr.getImageRef().getBytes(1000000000).addOnSuccessListener(bytes -> {
+            Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            holder.mImageView.setImageBitmap(bmp);
+        }).addOnFailureListener(e -> {
+            e.printStackTrace();
+        });
     }
 
     @Override
