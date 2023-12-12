@@ -53,7 +53,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
             tvRecipeDesc.setText(recipe.getDescription());
             rvRecipeIngs.setAdapter(new RecipeDetailAdapter(recipe.getIngredients()));
             rvRecipeSteps.setAdapter(new RecipeDetailAdapter(recipe.getSteps()));
-            if(recipe.getUserID() == auth.getUid()){
+            if(recipe.getUserID().equals(auth.getUid())){
                 btnEdit.setVisibility(View.VISIBLE);
             }
 
