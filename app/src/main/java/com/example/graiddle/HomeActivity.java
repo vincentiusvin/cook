@@ -38,18 +38,17 @@ public class HomeActivity extends AppCompatActivity {
         rvRecipes.setLayoutManager(gridLayoutManager);
         rvRecipes.setHasFixedSize(true);
 
-        try {
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-            Tasks.await(auth.signInWithEmailAndPassword(EMAIL, PASSWORD));
-        }catch (Exception e){}
-
-        Recipe.getCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                List<Recipe> result = value.toObjects(Recipe.class);
-                adapter = new HomeAdapter(HomeActivity.this, result);
-                rvRecipes.setAdapter(adapter);
-            }
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signInWithEmailAndPassword(EMAIL, PASSWORD).addOnSuccessListener(l -> {
+            Recipe.getCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    List<Recipe> result = value.toObjects(Recipe.class);
+                    adapter = new HomeAdapter(HomeActivity.this, result);
+                    rvRecipes.setAdapter(adapter);
+                }
+            });
         });
+
     }
 }
