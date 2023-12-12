@@ -7,13 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,13 +17,12 @@ import android.widget.Toast;
 
 import com.example.graiddle.models.Recipe;
 import com.example.graiddle.models.User;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.graiddle.utils.AddRecipeAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -67,10 +62,10 @@ public class AddRecipeActivity extends AppCompatActivity {
         steps.add("Step 1");
         steps.add("Step 2");
 
-        rvAddIngs.setAdapter(new AddRecipeListsAdapter(ings));
+        rvAddIngs.setAdapter(new AddRecipeAdapter(ings));
         rvAddIngs.setLayoutManager(new LinearLayoutManager(this));
 
-        rvAddSteps.setAdapter(new AddRecipeListsAdapter(steps));
+        rvAddSteps.setAdapter(new AddRecipeAdapter(steps));
         rvAddSteps.setLayoutManager(new LinearLayoutManager(this));
 
         btnAddIngs.setOnClickListener(v -> {

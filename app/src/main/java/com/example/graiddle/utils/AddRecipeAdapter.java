@@ -1,30 +1,31 @@
-package com.example.graiddle;
+package com.example.graiddle.utils;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.graiddle.R;
+
 import java.util.List;
 
-public class AddRecipeListsAdapter extends RecyclerView.Adapter<AddRecipeListsAdapter.VH> {
+public class AddRecipeAdapter extends RecyclerView.Adapter<AddRecipeAdapter.VH> {
     List<String> list;
 
-    public AddRecipeListsAdapter(List<String> list){
+    public AddRecipeAdapter(List<String> list){
         this.list = list;
     }
 
     @NonNull
     @Override
-    public AddRecipeListsAdapter.VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AddRecipeAdapter.VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_addrecipe, parent, false);
-        return new AddRecipeListsAdapter.VH(v);
+        View v = inflater.inflate(R.layout.item_add_recipe, parent, false);
+        return new AddRecipeAdapter.VH(v);
     }
 
     @Override
@@ -34,13 +35,13 @@ public class AddRecipeListsAdapter extends RecyclerView.Adapter<AddRecipeListsAd
             holder.etName.requestFocus();
             holder.etName.clearFocus();
             list.remove(position);
-            AddRecipeListsAdapter.this.notifyItemRemoved(position);
+            AddRecipeAdapter.this.notifyItemRemoved(position);
         });
         holder.etName.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus){
                 String newData = String.valueOf(holder.etName.getText());
                 list.set(position, newData);
-                AddRecipeListsAdapter.this.notifyItemChanged(position);
+                AddRecipeAdapter.this.notifyItemChanged(position);
             }
         });
     }
