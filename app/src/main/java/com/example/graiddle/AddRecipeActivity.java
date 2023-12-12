@@ -83,8 +83,7 @@ public class AddRecipeActivity extends AppCompatActivity {
             String desc = String.valueOf(etAddDesc.getText());
             String imgID = UUID.randomUUID().toString() + ".jpeg";
 
-            DocumentReference user = User.refById(auth.getUid());
-            new Recipe(displayName, desc, ings, steps, user, imgID)
+            new Recipe(displayName, desc, ings, steps, auth.getUid(), imgID)
                 .push().addOnSuccessListener(u -> {
                     Toast.makeText(AddRecipeActivity.this, "Item added successfully!", Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(u -> {

@@ -37,10 +37,7 @@ public class RecipeTest {
 
     @Test
     public void run() throws Exception {
-        User user = User.findByID(auth.getCurrentUser().getUid());
         FirebaseStorage storage = FirebaseStorage.getInstance();
-
-        String imagePath = storage.getReference().child("bakso.jpeg").getPath();
 
         ArrayList<String> ingredients = new ArrayList<String>();
         ingredients.add("Ing 1");
@@ -55,8 +52,8 @@ public class RecipeTest {
                 "Test Food",
                 ingredients,
                 steps,
-                user.getReference(),
-                imagePath
+                auth.getUid(),
+                "bakso.jpg"
         );
         Tasks.await(recipe.push());
 

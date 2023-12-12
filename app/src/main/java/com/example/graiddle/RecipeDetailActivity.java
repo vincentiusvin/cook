@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.graiddle.models.Recipe;
 import com.example.graiddle.utils.RecipeDetailAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -21,7 +23,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     TextView tvRecipeTitle, tvRecipeDesc;
     RecyclerView rvRecipeIngs, rvRecipeSteps;
-    Button btnBack;
+    Button btnBack, btnEdit;
     ImageView ivRecipeImage;
 
     @Override
@@ -29,12 +31,15 @@ public class RecipeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
         tvRecipeTitle = findViewById(R.id.recipeTitleTV);
         tvRecipeDesc = findViewById(R.id.recipeDescTV);
         rvRecipeIngs = findViewById(R.id.recipeIngsRV);
         rvRecipeSteps = findViewById(R.id.recipeStepsRV);
         ivRecipeImage = findViewById(R.id.recipeImageIV);
         btnBack = findViewById(R.id.backButton);
+        btnEdit = findViewById(R.id.editBtn);
 
         rvRecipeIngs.setLayoutManager(new LinearLayoutManager(this));
         rvRecipeSteps.setLayoutManager(new LinearLayoutManager(this));
@@ -48,6 +53,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
             tvRecipeDesc.setText(recipe.getDescription());
             rvRecipeIngs.setAdapter(new RecipeDetailAdapter(recipe.getIngredients()));
             rvRecipeSteps.setAdapter(new RecipeDetailAdapter(recipe.getSteps()));
+            if(recipe.getUserID().equals(auth.getUid())){
+                btnEdit.setVisibility(View.VISIBLE);
+            }
 
             recipe.getImageRef().getBytes(1000000000)
                 .addOnSuccessListener(bytes -> {

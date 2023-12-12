@@ -29,7 +29,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        holder.tv.setText(position + ". " + list.get(position));
+        holder.tv.setText((position + 1) + ". " + list.get(position));
     }
 
     @Override
