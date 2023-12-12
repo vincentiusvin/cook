@@ -73,7 +73,7 @@ public class AddRecipeActivity extends AppCompatActivity {
             DocumentReference user = User.refById(auth.getUid());
             new Recipe(displayName, desc, ings, steps, user)
                 .push().addOnSuccessListener(u -> {
-                    Toast.makeText(AddRecipeActivity.this, "Item added sucesfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddRecipeActivity.this, "Item added successfully!", Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(u -> {
                     Toast.makeText(AddRecipeActivity.this, "Item was not added!", Toast.LENGTH_SHORT).show();
                 });
