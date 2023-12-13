@@ -18,20 +18,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.graiddle.models.Recipe;
-import com.example.graiddle.models.User;
 import com.example.graiddle.utils.AddRecipeAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class AddRecipeActivity extends AppCompatActivity {
-    Button btnAddIngs, btnAddSteps, btnResepPage;
+    Button btnAddIngs, btnAddSteps, btnAddPage;
     EditText etAddTitle, etAddDesc;
     ImageView ivAddImage;
 
@@ -41,7 +38,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     ArrayList<String> steps;
 
     private byte[] imageViewToBytes(ImageView view){
-        Bitmap bmImg = ((BitmapDrawable) ivAddImage.getDrawable()).getBitmap();
+        Bitmap bmImg = ((BitmapDrawable) view.getDrawable()).getBitmap();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bmImg.compress(Bitmap.CompressFormat.JPEG, 100, bos);
         return bos.toByteArray();
@@ -54,6 +51,10 @@ public class AddRecipeActivity extends AppCompatActivity {
         }
     }
 
+    private void toast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         btnAddIngs = findViewById(R.id.addIngsBtn);
         btnAddSteps = findViewById(R.id.addStepsBtn);
-        btnResepPage = findViewById(R.id.resepPageBtn);
+        btnAddPage = findViewById(R.id.addPageBtn);
         etAddTitle = findViewById(R.id.addTitleET);
         etAddDesc = findViewById(R.id.addDescET);
         rvAddIngs = findViewById(R.id.addIngsRV);
@@ -75,20 +76,21 @@ public class AddRecipeActivity extends AppCompatActivity {
         steps = new ArrayList<String>();
         steps.add("");
 
-        rvAddIngs.setAdapter(new AddRecipeAdapter(this, ings));
+        AddRecipeAdapter ingsAdapter = new AddRecipeAdapter(this, ings);
+        AddRecipeAdapter stepsAdapter = new AddRecipeAdapter(this, steps);
+
+        rvAddIngs.setAdapter(ingsAdapter);
         rvAddIngs.setLayoutManager(new LinearLayoutManager(this));
 
-        rvAddSteps.setAdapter(new AddRecipeAdapter(this, steps));
+        rvAddSteps.setAdapter(stepsAdapter);
         rvAddSteps.setLayoutManager(new LinearLayoutManager(this));
 
         btnAddIngs.setOnClickListener(v -> {
-            ings.add("");
-            rvAddIngs.getAdapter().notifyItemInserted(ings.size());
+            ingsAdapter.add("");
         });
 
         btnAddSteps.setOnClickListener(v -> {
-            steps.add("");
-            rvAddSteps.getAdapter().notifyItemInserted(steps.size());
+            stepsAdapter.add("");
         });
 
         ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(
@@ -104,7 +106,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         });
 
 
-        btnResepPage.setOnClickListener(v -> {
+        btnAddPage.setOnClickListener(v -> {
             clearFocus();
 
             String displayName = String.valueOf(etAddTitle.getText());
@@ -115,20 +117,19 @@ public class AddRecipeActivity extends AppCompatActivity {
             StorageReference imageRef = storage.getReference().child(imgName);
             imageRef.putBytes(imageViewToBytes(ivAddImage))
                 .addOnSuccessListener(t -> {
-                    Toast.makeText(this, "Image added succesfully!", Toast.LENGTH_SHORT).show();
                     Recipe recipe = new Recipe(displayName, desc, ings, steps, auth.getUid(), imgName);
                     recipe.push().addOnSuccessListener(u -> {
-                        Toast.makeText(AddRecipeActivity.this, "Item added successfully!", Toast.LENGTH_SHORT).show();
+                        toast("Item added successfully!");
                         Intent pindah = new Intent(AddRecipeActivity.this, RecipeDetailActivity.class);
                         pindah.putExtra("id", recipe.getId());
                         startActivity(pindah);
                     }).addOnFailureListener(u -> {
-                        Toast.makeText(AddRecipeActivity.this, "Item was not added!", Toast.LENGTH_SHORT).show();
+                        toast("Item was not added!");
                         imageRef.delete();
                     });
                 })
                 .addOnFailureListener(t -> {
-                    Toast.makeText(AddRecipeActivity.this, "Item was not added!", Toast.LENGTH_SHORT).show();
+                    toast("Item was not added!");
                 });
         });
 

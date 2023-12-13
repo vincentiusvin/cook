@@ -39,20 +39,33 @@ public class AddRecipeAdapter extends RecyclerView.Adapter<AddRecipeAdapter.VH> 
         return new AddRecipeAdapter.VH(v);
     }
 
+    public void remove(int position){
+        clearFocus();
+        list.remove(position);
+        this.notifyItemRemoved(position);
+        this.notifyItemRangeChanged(position, list.size());
+    }
+
+    public void change(int position, String newValue){
+        list.set(position, newValue);
+        AddRecipeAdapter.this.notifyItemChanged(position);
+    }
+
+    public void add(String newValue){
+        list.add(newValue);
+        notifyItemInserted(list.size());
+    }
+
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         holder.etName.setText(list.get(position));
         holder.btnRemove.setOnClickListener(v -> {
-            clearFocus();
-            list.remove(position);
-            AddRecipeAdapter.this.notifyItemRemoved(position);
-            AddRecipeAdapter.this.notifyItemRangeChanged(position, list.size());
+            remove(position);
         });
         holder.etName.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus){
-                String newData = String.valueOf(holder.etName.getText());
-                list.set(position, newData);
-                AddRecipeAdapter.this.notifyItemChanged(position);
+                String string = String.valueOf(holder.etName.getText());
+                change(position, string);
             }
         });
     }
