@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -83,13 +84,6 @@ public class AddRecipeActivity extends AppCompatActivity {
             String desc = String.valueOf(etAddDesc.getText());
             String imgID = UUID.randomUUID().toString() + ".jpeg";
 
-            new Recipe(displayName, desc, ings, steps, auth.getUid(), imgID)
-                .push().addOnSuccessListener(u -> {
-                    Toast.makeText(AddRecipeActivity.this, "Item added successfully!", Toast.LENGTH_SHORT).show();
-                }).addOnFailureListener(u -> {
-                    Toast.makeText(AddRecipeActivity.this, "Item was not added!", Toast.LENGTH_SHORT).show();
-                });
-
             Bitmap bmImg = ((BitmapDrawable) ivAddImage.getDrawable()).getBitmap();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bmImg.compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -100,6 +94,15 @@ public class AddRecipeActivity extends AppCompatActivity {
             StorageTask storageTask = image.putBytes(bytes)
                 .addOnSuccessListener(t -> {
                     Toast.makeText(this, "Image added succesfully!", Toast.LENGTH_SHORT).show();
+                    Recipe recipe = new Recipe(displayName, desc, ings, steps, auth.getUid(), imgID);
+                    recipe.push().addOnSuccessListener(u -> {
+                        Toast.makeText(AddRecipeActivity.this, "Item added successfully!", Toast.LENGTH_SHORT).show();
+                        Intent pindah = new Intent(AddRecipeActivity.this, RecipeDetailActivity.class);
+                        pindah.putExtra("id", recipe.getId());
+                        startActivity(pindah);
+                    }).addOnFailureListener(u -> {
+                        Toast.makeText(AddRecipeActivity.this, "Item was not added!", Toast.LENGTH_SHORT).show();
+                    });
                 })
                 .addOnFailureListener(t -> {
                     Toast.makeText(this, "Image was not added!", Toast.LENGTH_SHORT).show();
