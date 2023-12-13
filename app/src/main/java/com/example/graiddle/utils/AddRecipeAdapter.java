@@ -36,6 +36,7 @@ public class AddRecipeAdapter extends RecyclerView.Adapter<AddRecipeAdapter.VH> 
             holder.etName.clearFocus();
             list.remove(position);
             AddRecipeAdapter.this.notifyItemRemoved(position);
+            AddRecipeAdapter.this.notifyItemRangeChanged(position, list.size());
         });
         holder.etName.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus){

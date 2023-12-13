@@ -70,12 +70,12 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         btnAddIngs.setOnClickListener(v -> {
             ings.add("Placeholder");
-            rvAddIngs.getAdapter().notifyItemInserted(ings.size() - 1);
+            rvAddIngs.getAdapter().notifyItemInserted(ings.size());
         });
 
         btnAddSteps.setOnClickListener(v -> {
             steps.add("Placeholder");
-            rvAddSteps.getAdapter().notifyItemInserted(steps.size() - 1);
+            rvAddSteps.getAdapter().notifyItemInserted(steps.size());
         });
 
         btnResepPage.setOnClickListener(v -> {
