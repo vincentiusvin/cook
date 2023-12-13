@@ -56,6 +56,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
             rvRecipeSteps.setAdapter(new RecipeDetailAdapter(recipe.getSteps()));
             if(recipe.getUserID().equals(auth.getUid())){
                 btnEdit.setVisibility(View.VISIBLE);
+                btnEdit.setOnClickListener(v -> {
+                    Intent edit = new Intent(RecipeDetailActivity.this, UpdateRecipeActivity.class);
+                    edit.putExtra("id", recipe.getId());
+                    startActivity(edit);
+                });
             }
 
             recipe.getImageRef().getBytes(1000000000)
@@ -65,7 +70,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 }).addOnFailureListener(e -> {
                     e.printStackTrace();
                 });
-            });
+        });
 
         btnBack.setOnClickListener(v -> {
             startActivity(new Intent(RecipeDetailActivity.this, HomeActivity.class));
