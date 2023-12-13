@@ -1,5 +1,7 @@
 package com.example.graiddle.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,18 @@ import java.util.List;
 
 public class AddRecipeAdapter extends RecyclerView.Adapter<AddRecipeAdapter.VH> {
     List<String> list;
+    Activity activity;
 
-    public AddRecipeAdapter(List<String> list){
+    public AddRecipeAdapter(Activity activity, List<String> list){
         this.list = list;
+        this.activity = activity;
+    }
+
+    private void clearFocus(){
+        View v = activity.getCurrentFocus();
+        if(v != null){
+            v.clearFocus();
+        }
     }
 
     @NonNull
@@ -32,8 +43,7 @@ public class AddRecipeAdapter extends RecyclerView.Adapter<AddRecipeAdapter.VH> 
     public void onBindViewHolder(@NonNull VH holder, int position) {
         holder.etName.setText(list.get(position));
         holder.btnRemove.setOnClickListener(v -> {
-            holder.etName.requestFocus();
-            holder.etName.clearFocus();
+            clearFocus();
             list.remove(position);
             AddRecipeAdapter.this.notifyItemRemoved(position);
             AddRecipeAdapter.this.notifyItemRangeChanged(position, list.size());
