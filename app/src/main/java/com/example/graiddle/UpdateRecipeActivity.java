@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -80,6 +81,18 @@ public class UpdateRecipeActivity extends AppCompatActivity {
             onBackPressed();
         });
 
+        ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(
+                new ActivityResultContracts.PickVisualMedia(),
+                uri -> {ivUpdateImage.setImageURI(uri);}
+        );
+
+        ivUpdateImage.setOnClickListener(v -> {
+            pickMedia
+                .launch(new PickVisualMediaRequest.Builder() // errornya diignore aja
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
+        });
+
         String recipeID = getIntent().getStringExtra("id");
         DocumentReference recipeDoc = Recipe.refById(recipeID);
         recipeDoc.get().addOnSuccessListener(documentSnapshot -> {
@@ -105,18 +118,13 @@ public class UpdateRecipeActivity extends AppCompatActivity {
                 stepsAdapter.add("");
             });
 
-
-            ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(
-                    new ActivityResultContracts.PickVisualMedia(),
-                    uri -> {ivUpdateImage.setImageURI(uri);}
-            );
-
-            ivUpdateImage.setOnClickListener(v -> {
-                pickMedia
-                    .launch(new PickVisualMediaRequest.Builder() // errornya diignore aja
-                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                    .build());
-            });
+            curr.getImageRef().getBytes(1000000000)
+                .addOnSuccessListener(bytes -> {
+                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    ivUpdateImage.setImageBitmap(bmp);
+                }).addOnFailureListener(e -> {
+                    e.printStackTrace();
+                });
 
             btnUpdateSave.setOnClickListener(v -> {
                 clearFocus();
@@ -151,7 +159,14 @@ public class UpdateRecipeActivity extends AppCompatActivity {
             });
 
             btnUpdateDelete.setOnClickListener(v -> {
-                curr.delete();
+                curr.delete()
+                    .addOnSuccessListener(unused -> {
+                        toast("Item deleted succesfully!");
+                        startActivity(new Intent(UpdateRecipeActivity.this, HomeActivity.class));
+                    })
+                    .addOnFailureListener(unused -> {
+                        toast("Item was not deleted!");
+                    });
             });
         });
     }
