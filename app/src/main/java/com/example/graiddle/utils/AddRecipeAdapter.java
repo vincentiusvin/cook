@@ -1,5 +1,7 @@
 package com.example.graiddle.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,18 @@ import java.util.List;
 
 public class AddRecipeAdapter extends RecyclerView.Adapter<AddRecipeAdapter.VH> {
     List<String> list;
+    Activity activity;
 
-    public AddRecipeAdapter(List<String> list){
+    public AddRecipeAdapter(Activity activity, List<String> list){
         this.list = list;
+        this.activity = activity;
+    }
+
+    private void clearFocus(){
+        View v = activity.getCurrentFocus();
+        if(v != null){
+            v.clearFocus();
+        }
     }
 
     @NonNull
@@ -28,21 +39,33 @@ public class AddRecipeAdapter extends RecyclerView.Adapter<AddRecipeAdapter.VH> 
         return new AddRecipeAdapter.VH(v);
     }
 
+    public void remove(int position){
+        clearFocus();
+        list.remove(position);
+        this.notifyItemRemoved(position);
+        this.notifyItemRangeChanged(position, list.size());
+    }
+
+    public void change(int position, String newValue){
+        list.set(position, newValue);
+        AddRecipeAdapter.this.notifyItemChanged(position);
+    }
+
+    public void add(String newValue){
+        list.add(newValue);
+        notifyItemInserted(list.size());
+    }
+
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         holder.etName.setText(list.get(position));
         holder.btnRemove.setOnClickListener(v -> {
-            holder.etName.requestFocus();
-            holder.etName.clearFocus();
-            list.remove(position);
-            AddRecipeAdapter.this.notifyItemRemoved(position);
-            AddRecipeAdapter.this.notifyItemRangeChanged(position, list.size());
+            remove(position);
         });
         holder.etName.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus){
-                String newData = String.valueOf(holder.etName.getText());
-                list.set(position, newData);
-                AddRecipeAdapter.this.notifyItemChanged(position);
+                String string = String.valueOf(holder.etName.getText());
+                change(position, string);
             }
         });
     }
