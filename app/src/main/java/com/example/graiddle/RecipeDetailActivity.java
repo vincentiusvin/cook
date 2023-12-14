@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.graiddle.models.Recipe;
+import com.example.graiddle.models.User;
 import com.example.graiddle.utils.RecipeDetailAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -22,7 +23,7 @@ import com.google.firebase.storage.StorageReference;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
-    TextView tvRecipeTitle, tvRecipeDesc;
+    TextView tvRecipeTitle, tvRecipeDesc, tvRecipeAuthor;
     RecyclerView rvRecipeIngs, rvRecipeSteps;
     Button btnBack, btnEdit;
     ImageView ivRecipeImage;
@@ -36,6 +37,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         tvRecipeTitle = findViewById(R.id.recipeTitleTV);
         tvRecipeDesc = findViewById(R.id.recipeDescTV);
+        tvRecipeAuthor = findViewById(R.id.recipeAuthorTV);
         rvRecipeIngs = findViewById(R.id.recipeIngsRV);
         rvRecipeSteps = findViewById(R.id.recipeStepsRV);
         ivRecipeImage = findViewById(R.id.recipeImageIV);
@@ -49,6 +51,15 @@ public class RecipeDetailActivity extends AppCompatActivity {
         DocumentReference recipeDoc = Recipe.refById(recipeID);
         recipeDoc.get().addOnSuccessListener(documentSnapshot -> {
             Recipe recipe = documentSnapshot.toObject(Recipe.class);
+
+            User.refById(recipe.getUserID()).get()
+                .addOnSuccessListener(userDocument -> {
+                    User user = userDocument.toObject(User.class);
+                    tvRecipeAuthor.setText("by: " + user.getDisplayName());
+                })
+                .addOnFailureListener(u -> {
+                    tvRecipeAuthor.setText("Unknown author");
+                });
 
             tvRecipeTitle.setText(recipe.getDisplayName());
             tvRecipeDesc.setText(recipe.getDescription());
