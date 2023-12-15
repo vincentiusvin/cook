@@ -11,26 +11,24 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.graiddle.models.Recipe;
-import com.example.graiddle.models.User;
 import com.example.graiddle.utils.AddRecipeAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class AddRecipeActivity extends AppCompatActivity {
-    Button btnAddIngs, btnAddSteps, btnResepPage, btnBack;
+    Button btnAddIngs, btnAddSteps, btnAddPage, btnBack;
     EditText etAddTitle, etAddDesc;
     ImageView ivAddImage;
 
@@ -38,6 +36,24 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     ArrayList<String> ings;
     ArrayList<String> steps;
+
+    private byte[] imageViewToBytes(ImageView view){
+        Bitmap bmImg = ((BitmapDrawable) view.getDrawable()).getBitmap();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bmImg.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        return bos.toByteArray();
+    }
+
+    private void clearFocus(){
+        View v = getCurrentFocus();
+        if(v != null){
+            v.clearFocus();
+        }
+    }
+
+    private void toast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +64,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         btnAddIngs = findViewById(R.id.addIngsBtn);
         btnAddSteps = findViewById(R.id.addStepsBtn);
-        btnResepPage = findViewById(R.id.resepPageBtn);
+        btnAddPage = findViewById(R.id.addPageBtn);
         etAddTitle = findViewById(R.id.addTitleET);
         etAddDesc = findViewById(R.id.addDescET);
         rvAddIngs = findViewById(R.id.addIngsRV);
@@ -62,69 +78,66 @@ public class AddRecipeActivity extends AppCompatActivity {
         });
 
         ings = new ArrayList<String>();
-        ings.add("Ingredient 1");
-        ings.add("Ingredient 2");
-
+        ings.add("");
         steps = new ArrayList<String>();
-        steps.add("Step 1");
-        steps.add("Step 2");
+        steps.add("");
 
-        rvAddIngs.setAdapter(new AddRecipeAdapter(ings));
+        AddRecipeAdapter ingsAdapter = new AddRecipeAdapter(this, ings);
+        AddRecipeAdapter stepsAdapter = new AddRecipeAdapter(this, steps);
+
+        rvAddIngs.setAdapter(ingsAdapter);
         rvAddIngs.setLayoutManager(new LinearLayoutManager(this));
 
-        rvAddSteps.setAdapter(new AddRecipeAdapter(steps));
+        rvAddSteps.setAdapter(stepsAdapter);
         rvAddSteps.setLayoutManager(new LinearLayoutManager(this));
 
         btnAddIngs.setOnClickListener(v -> {
-            ings.add("Placeholder");
-            rvAddIngs.getAdapter().notifyItemInserted(ings.size());
+            ingsAdapter.add("");
         });
 
         btnAddSteps.setOnClickListener(v -> {
-            steps.add("Placeholder");
-            rvAddSteps.getAdapter().notifyItemInserted(steps.size());
+            stepsAdapter.add("");
         });
 
-        btnResepPage.setOnClickListener(v -> {
+        ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(
+            new ActivityResultContracts.PickVisualMedia(),
+            uri -> {ivAddImage.setImageURI(uri);}
+        );
+
+        ivAddImage.setOnClickListener(v -> {
+            pickMedia
+                .launch(new PickVisualMediaRequest.Builder() // errornya diignore aja
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                .build());
+        });
+
+
+        btnAddPage.setOnClickListener(v -> {
+            clearFocus();
+
             String displayName = String.valueOf(etAddTitle.getText());
             String desc = String.valueOf(etAddDesc.getText());
-            String imgID = UUID.randomUUID().toString() + ".jpeg";
-
-            Bitmap bmImg = ((BitmapDrawable) ivAddImage.getDrawable()).getBitmap();
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bmImg.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            byte[] bytes = bos.toByteArray();
+            String imgName = UUID.randomUUID().toString() + ".jpeg";
 
             FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference image = storage.getReference().child(imgID);
-            StorageTask storageTask = image.putBytes(bytes)
+            StorageReference imageRef = storage.getReference().child(imgName);
+            imageRef.putBytes(imageViewToBytes(ivAddImage))
                 .addOnSuccessListener(t -> {
-                    Toast.makeText(this, "Image added succesfully!", Toast.LENGTH_SHORT).show();
-                    Recipe recipe = new Recipe(displayName, desc, ings, steps, auth.getUid(), imgID);
+                    Recipe recipe = new Recipe(displayName, desc, ings, steps, auth.getUid(), imgName);
                     recipe.push().addOnSuccessListener(u -> {
-                        Toast.makeText(AddRecipeActivity.this, "Item added successfully!", Toast.LENGTH_SHORT).show();
+                        toast("Item added successfully!");
                         Intent pindah = new Intent(AddRecipeActivity.this, RecipeDetailActivity.class);
                         pindah.putExtra("id", recipe.getId());
                         startActivity(pindah);
                     }).addOnFailureListener(u -> {
-                        Toast.makeText(AddRecipeActivity.this, "Item was not added!", Toast.LENGTH_SHORT).show();
+                        toast("Item was not added!");
+                        imageRef.delete();
                     });
                 })
                 .addOnFailureListener(t -> {
-                    Toast.makeText(this, "Image was not added!", Toast.LENGTH_SHORT).show();
+                    toast("Item was not added!");
                 });
         });
-
-    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
-        registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
-            ivAddImage.setImageURI(uri);
-        });
-
-    ivAddImage.setOnClickListener(v -> {
-        pickMedia.launch(new PickVisualMediaRequest.Builder() // errornya diignore aja
-            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-            .build());
-    });
 
     }
 }

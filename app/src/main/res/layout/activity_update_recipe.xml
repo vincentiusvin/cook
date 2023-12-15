@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddRecipeActivity">
+    tools:context=".UpdateRecipeActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -17,17 +17,7 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/addIngsBtn"
+                android:id="@+id/updateIngsBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -37,10 +27,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addIngsRV" />
+                app:layout_constraintTop_toBottomOf="@+id/updateIngsRV" />
 
             <Button
-                android:id="@+id/addStepsBtn"
+                android:id="@+id/updateStepsBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -52,10 +42,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addStepsRV" />
+                app:layout_constraintTop_toBottomOf="@+id/updateStepsRV" />
 
             <EditText
-                android:id="@+id/addTitleET"
+                android:id="@+id/updateTitleET"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -67,11 +57,11 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/addTitleTV"
-                app:layout_constraintTop_toTopOf="@+id/addTitleTV" />
+                app:layout_constraintStart_toEndOf="@+id/updateTitleTV"
+                app:layout_constraintTop_toTopOf="@+id/updateTitleTV" />
 
             <TextView
-                android:id="@+id/addDescTV"
+                android:id="@+id/updateDescTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -79,10 +69,10 @@
                 android:text="Deskripsi"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addTitleET" />
+                app:layout_constraintTop_toBottomOf="@+id/updateTitleET" />
 
             <TextView
-                android:id="@+id/addIngsTV"
+                android:id="@+id/updateIngsTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -91,10 +81,10 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addDescET" />
+                app:layout_constraintTop_toBottomOf="@+id/updateDescET" />
 
             <TextView
-                android:id="@+id/addStepsTV"
+                android:id="@+id/updateStepsTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -103,22 +93,10 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addIngsBtn" />
+                app:layout_constraintTop_toBottomOf="@+id/updateIngsBtn" />
 
             <TextView
-                android:id="@+id/addPageTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="116dp"
-                android:text="TAMBAHKAN RESEP BARU"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/addPageBtn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                app:layout_constraintTop_toTopOf="@+id/addPageBtn" />
-
-            <TextView
-                android:id="@+id/addTitleTV"
+                android:id="@+id/updateTitleTV"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
@@ -126,10 +104,10 @@
                 android:text="Judul Resep"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addImageIV" />
+                app:layout_constraintTop_toBottomOf="@+id/updateImageIV" />
 
             <EditText
-                android:id="@+id/addDescET"
+                android:id="@+id/updateDescET"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-16dp"
@@ -140,11 +118,11 @@
                 android:inputType="textMultiLine"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/addTitleET"
-                app:layout_constraintTop_toTopOf="@+id/addDescTV" />
+                app:layout_constraintStart_toStartOf="@+id/updateTitleET"
+                app:layout_constraintTop_toTopOf="@+id/updateDescTV" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/addIngsRV"
+                android:id="@+id/updateIngsRV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -152,10 +130,10 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addIngsTV" />
+                app:layout_constraintTop_toBottomOf="@+id/updateIngsTV" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/addStepsRV"
+                android:id="@+id/updateStepsRV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -163,20 +141,40 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addStepsTV" />
+                app:layout_constraintTop_toBottomOf="@+id/updateStepsTV" />
 
             <Button
-                android:id="@+id/addPageBtn"
+                android:id="@+id/updateSaveBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="Unggah"
+                android:text="Simpan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <Button
+                android:id="@+id/updateDeleteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Hapus"
+                app:layout_constraintEnd_toStartOf="@+id/updateSaveBtn"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/updateBackBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Kembali"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
-                android:id="@+id/addImageIV"
+                android:id="@+id/updateImageIV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -184,11 +182,10 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addPageBtn"
+                app:layout_constraintTop_toBottomOf="@+id/updateSaveBtn"
                 app:srcCompat="@drawable/ic_launcher_background" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

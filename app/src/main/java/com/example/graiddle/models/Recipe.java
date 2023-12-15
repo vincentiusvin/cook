@@ -1,5 +1,7 @@
 package com.example.graiddle.models;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
@@ -124,5 +126,13 @@ public class Recipe extends FirebaseModel {
                 && Objects.equals(userID, recipe.userID)
                 && Objects.equals(imgID, recipe.imgID)
                 && Objects.equals(getId(), recipe.getId());
+    }
+
+    @Override
+    public Task<Void> delete() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        Task imgDel = storage.getReference().child(this.imgID).delete();
+        Task itemDel = super.delete();
+        return Tasks.whenAll(imgDel, itemDel);
     }
 }

@@ -36,4 +36,8 @@ public abstract class FirebaseModel {
     public Task<Void> push(){
         return getReference().set(this);
     }
+
+    public Task<Void> delete(){
+        return getReference().delete();
+    }
 }
