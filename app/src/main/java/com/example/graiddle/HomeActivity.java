@@ -1,30 +1,46 @@
 package com.example.graiddle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.transition.Slide;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.graiddle.models.Recipe;
 import com.example.graiddle.utils.HomeAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     private RecyclerView rvRecipes;
     private HomeAdapter adapter;
     //Button btnAdd;
+    private ImageSlider ImagesSlider;
+
+    FirebaseFirestore database = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
 
         rvRecipes = findViewById(R.id.menuRV);
         //btnAdd = findViewById(R.id.addBtn);
-
+        ImagesSlider = findViewById(R.id.ImagesSlider);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         rvRecipes.setLayoutManager(gridLayoutManager);
         rvRecipes.setHasFixedSize(true);
@@ -40,6 +56,27 @@ public class HomeActivity extends AppCompatActivity {
 //        btnAdd.setOnClickListener(v -> {
 //            startActivity(new Intent(HomeActivity.this, AddRecipeActivity.class));
 //        });
+        ArrayList<SlideModel> slideModels = new ArrayList<>();
+        database.collection("recipes").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+                        slideModels.add(new SlideModel(queryDocumentSnapshot.getString("imgID"), ScaleTypes.FIT));
+                        ImagesSlider.setImageList(slideModels, ScaleTypes.FIT);
+                    }
+                }
+                else{
+                    Toast.makeText(HomeActivity.this, "Cannot Load Images", Toast.LENGTH_SHORT).show();
+                }
+            }
+        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(HomeActivity.this, "Cannot Load Images", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
         Recipe.getCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
