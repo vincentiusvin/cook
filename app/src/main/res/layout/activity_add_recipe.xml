@@ -17,6 +17,16 @@
             android:layout_height="wrap_content">
 
             <Button
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
                 android:id="@+id/addIngsBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -99,11 +109,12 @@
                 android:id="@+id/addPageTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="116dp"
                 android:text="TAMBAHKAN RESEP BARU"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/addPageBtn"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintTop_toTopOf="@+id/addPageBtn" />
 
             <TextView
