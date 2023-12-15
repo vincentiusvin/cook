@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class AddRecipeActivity extends AppCompatActivity {
-    Button btnAddIngs, btnAddSteps, btnResepPage;
+    Button btnAddIngs, btnAddSteps, btnResepPage, btnBack;
     EditText etAddTitle, etAddDesc;
     ImageView ivAddImage;
 
@@ -54,6 +54,12 @@ public class AddRecipeActivity extends AppCompatActivity {
         rvAddIngs = findViewById(R.id.addIngsRV);
         rvAddSteps = findViewById(R.id.addStepsRV);
         ivAddImage = findViewById(R.id.addImageIV);
+        btnBack = findViewById(R.id.backButton);
+
+        btnBack.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            finish();
+        });
 
         ings = new ArrayList<String>();
         ings.add("Ingredient 1");
