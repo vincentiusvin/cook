@@ -66,6 +66,7 @@ public class HomeActivity extends AppCompatActivity {
                         String imageUrl = "https://firebasestorage.googleapis.com/v0/b/graiddle.appspot.com/o/" + imgFileName + "?alt=media";
                         slideModels.add(new SlideModel(imageUrl, ScaleTypes.FIT));
                     }
+                    ImagesSlider.setImageList(slideModels, ScaleTypes.FIT);
                 }
                 else{
                     Toast.makeText(HomeActivity.this, "Cannot Load Images", Toast.LENGTH_SHORT).show();
