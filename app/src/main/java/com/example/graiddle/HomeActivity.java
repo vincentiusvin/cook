@@ -62,8 +62,9 @@ public class HomeActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                        slideModels.add(new SlideModel(queryDocumentSnapshot.getString("imgID"), ScaleTypes.FIT));
-                        ImagesSlider.setImageList(slideModels, ScaleTypes.FIT);
+                        String imgFileName = queryDocumentSnapshot.getString("imgID");
+                        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/graiddle.appspot.com/o/" + imgFileName + "?alt=media";
+                        slideModels.add(new SlideModel(imageUrl, ScaleTypes.FIT));
                     }
                 }
                 else{
@@ -82,6 +83,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 List<Recipe> result = value.toObjects(Recipe.class);
+
                 adapter = new HomeAdapter(HomeActivity.this, result);
                 rvRecipes.setAdapter(adapter);
             }
