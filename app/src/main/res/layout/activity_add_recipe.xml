@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddRecipeActivity">
+    tools:context=".AddRecipeActivity"
+    android:background="#fcf1c0">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -23,6 +24,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Back"
+                android:backgroundTint="@color/brown"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,6 +36,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="Tambahkan Bahan"
+                android:backgroundTint="@color/brown"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +50,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/brown"
                 android:text="Tambahkan Bahan"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -62,6 +66,7 @@
                 android:layout_marginTop="-16dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
+                android:fontFamily="@font/open_sans_semibold"
                 android:hint="Berikan judul resepmu"
                 android:inputType="text"
                 android:textSize="16sp"
@@ -76,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
+                android:fontFamily="@font/open_sans_semibold"
                 android:text="Deskripsi"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
+                android:fontFamily="@font/open_sans_bold"
                 android:text="BAHAN-BAHAN"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -99,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
+                android:fontFamily="@font/open_sans_bold"
                 android:text="LANGKAH"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -110,12 +118,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="116dp"
+                android:fontFamily="@font/open_sans_semibold"
                 android:text="TAMBAHKAN RESEP BARU"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/addPageBtn"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                app:layout_constraintTop_toTopOf="@+id/addPageBtn" />
+                app:layout_constraintTop_toTopOf="@+id/addPageBtn"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/addTitleTV"
@@ -123,6 +132,7 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
+                android:fontFamily="@font/open_sans_semibold"
                 android:text="Judul Resep"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -135,6 +145,7 @@
                 android:layout_marginTop="-16dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
+                android:fontFamily="@font/open_sans_semibold"
                 android:gravity="start|top"
                 android:hint="Masukkan deskripsi resep"
                 android:inputType="textMultiLine"
@@ -171,6 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/brown"
                 android:text="Unggah"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

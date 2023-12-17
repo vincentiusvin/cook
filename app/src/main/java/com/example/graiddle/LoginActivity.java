@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView register;
 
+    ImageView graiddleLogo;
 //    @Override
 //    public void onStart() {
 //        super.onStart();
@@ -40,12 +42,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         mAuth = FirebaseAuth.getInstance();
         inputEmail = findViewById(R.id.inputEmail);
         inputPassword = findViewById(R.id.inputPassword);
         loginBtn = findViewById(R.id.loginBtn);
         register = findViewById(R.id.tvRegister);
+
+        ImageView graiddleLogo = findViewById(R.id.graiddleLogo);
+        graiddleLogo.setImageResource(R.drawable.logo);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UpdateRecipeActivity">
+    tools:context=".UpdateRecipeActivity"
+    android:background="#fcf1c0">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -24,6 +25,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="Tambahkan Bahan"
+                android:backgroundTint="@color/brown"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/brown"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="Tambahkan Bahan"
@@ -150,6 +153,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="Simpan"
+                android:backgroundTint="@color/brown"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -160,6 +164,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="Hapus"
+                android:backgroundTint="@color/brown"
                 app:layout_constraintEnd_toStartOf="@+id/updateSaveBtn"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -170,6 +175,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Kembali"
+                android:backgroundTint="@color/brown"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
