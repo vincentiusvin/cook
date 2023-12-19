@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.graiddle.models.Recipe;
 import com.example.graiddle.utils.AddRecipeAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
@@ -168,6 +169,29 @@ public class UpdateRecipeActivity extends AppCompatActivity {
                         toast("Item was not deleted!");
                     });
             });
+        });
+
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if(item.getItemId()==R.id.home_nav){
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                finish();
+                return true;
+            }
+            else if(item.getItemId()==R.id.add_nav){
+                startActivity(new Intent(getApplicationContext(), AddRecipeActivity.class));
+                finish();
+                return true;
+            }
+            else if(item.getItemId()==R.id.logout_nav){
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                Toast.makeText(getApplicationContext(), "Log out account", Toast.LENGTH_SHORT).show();
+                finish();
+                return true;
+            }
+            return false;
         });
     }
 }
