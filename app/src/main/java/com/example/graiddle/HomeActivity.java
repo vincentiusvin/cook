@@ -53,38 +53,16 @@ public class HomeActivity extends AppCompatActivity {
         rvRecipes.setLayoutManager(gridLayoutManager);
         rvRecipes.setHasFixedSize(true);
 
-//        btnAdd.setOnClickListener(v -> {
-//            startActivity(new Intent(HomeActivity.this, AddRecipeActivity.class));
-//        });
-        ArrayList<SlideModel> slideModels = new ArrayList<>();
-        database.collection("recipes").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
-                    for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                        String imgFileName = queryDocumentSnapshot.getString("imgID");
-                        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/graiddle.appspot.com/o/" + imgFileName + "?alt=media";
-                        slideModels.add(new SlideModel(imageUrl, ScaleTypes.FIT));
-                    }
-                    ImagesSlider.setImageList(slideModels, ScaleTypes.FIT);
-                }
-                else{
-                    Toast.makeText(HomeActivity.this, "Cannot Load Images", Toast.LENGTH_SHORT).show();
-                }
-            }
-        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(HomeActivity.this, "Cannot Load Images", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
         Recipe.getCollection().addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 List<Recipe> result = value.toObjects(Recipe.class);
-
+                ArrayList<SlideModel> slideModels = new ArrayList<>();
+                for(Recipe recipe: result){
+                    String imageUrl = "https://firebasestorage.googleapis.com/v0/b/graiddle.appspot.com/o/" + recipe.getImgID() + "?alt=media";
+                    slideModels.add(new SlideModel(imageUrl, ScaleTypes.FIT));
+                }
+                ImagesSlider.setImageList(slideModels, ScaleTypes.FIT);
                 adapter = new HomeAdapter(HomeActivity.this, result);
                 rvRecipes.setAdapter(adapter);
             }
